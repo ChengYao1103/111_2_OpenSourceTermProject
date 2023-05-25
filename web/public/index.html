@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>薰衣草種植環境監測</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 引入自訂的 javascript -->
+    <script src="./index.js"></script>
+  </head>
+
+  <body>
+    <div class="py-2 mb-3 bg-primary w-100 text-white">
+      <h3 class="mt-2 ms-3 fw-bold">薰衣草種植環境監測</h3>
+    </div>
+    <!-- 亮度 -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-4">亮度</div>
+        <div class="col-8">
+          <div class="circle-bar">
+            <svg height="100" width="150">
+              <circle
+                id="light-progress"
+                cx="60"
+                cy="50"
+                r="40"
+                stroke="#f0f022"
+                stroke-width="6"
+                fill="#FFFFFF"
+              />
+              <text font-size="0.8em" x="5" y="50">0</text>
+              <text font-size="0.8em" x="108" y="50">100</text>
+              <text id="light-value" x="45" y="50">25%</text>
+              <animate
+                id="light-animation"
+                attributeName="stroke-dashoffset"
+                begin="indefinite"
+                dur="1s"
+                values="125; 0"
+                calcMode="spline"
+                keySplines=".25 .5 .25 1"
+                fill="freeze"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <!-- 溫度 -->
+      <div class="row justifi">
+        <div class="col-4">溫度</div>
+        <div class="col-8">
+          <div class="circle-bar">
+            <svg height="100" width="150">
+              <circle
+                id="temperature-progress"
+                cx="60"
+                cy="50"
+                r="40"
+                stroke="#f08922"
+                stroke-width="6"
+                fill="#FFFFFF"
+              />
+              <text font-size="0.8em" x="5" y="50">0</text>
+              <text font-size="0.8em" x="108" y="50">50</text>
+              <text id="temperature-value" x="42" y="50">25°C</text>
+              <animate
+                id="temperature-animation"
+                attributeName="stroke-dashoffset"
+                begin="indefinite"
+                dur="1s"
+                values="125; 0"
+                calcMode="spline"
+                keySplines=".25 .5 .25 1"
+                fill="freeze"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <!-- 濕度 -->
+      <div class="row">
+        <div class="col-4">濕度</div>
+        <div class="col-8">
+          <div class="circle-bar">
+            <svg height="100" width="150">
+              <circle
+                id="humidity-progress"
+                cx="60"
+                cy="50"
+                r="40"
+                stroke="#428bca"
+                stroke-width="6"
+                fill="#FFFFFF"
+              />
+              <text font-size="0.8em" x="5" y="50">0</text>
+              <text font-size="0.8em" x="108" y="50">100</text>
+              <text id="humidity-value" x="45" y="50">25%</text>
+              <animate
+                id="humidity-animation"
+                attributeName="stroke-dashoffset"
+                begin="indefinite"
+                dur="1s"
+                values="125; 62.5"
+                calcMode="spline"
+                keySplines=".25 .5 .25 1"
+                fill="freeze"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <!-- 土壤檢測 -->
+      <div class="row">
+        <div class="col-4">土壤是否乾燥</div>
+        <div class="col-8" id="soil-value">否</div>
+      </div>
+    </div>
+  </body>
+</html>
