@@ -2,8 +2,10 @@
 from machine import Pin
 from machine import ADC
 import time
+import ntptime
 import network
 import dht
+import mip  # 下載或驗證額外套件
 
 def countPercentage(num):
     return round(num*100, 2)
@@ -20,8 +22,12 @@ while(not wifi.isconnected()):
     print("連線中...")
     # 每一秒判斷一次是否連上
     time.sleep(1)
-    
 print(wifi.isconnected())
+
+# 透過 ntpServer 更新 esp8266 的時間
+ntptime.settime()
+# 台灣時間為 UTC+8
+TIME_OFFSET = 8 * 60 * 60
 
 # 宣告各感測器的腳位
 LDR_PIN = 0     #A0
@@ -46,14 +52,18 @@ try:
         temperature = dhtPin.temperature()
         # 取得連接土壤感測器 pin 腳的的值(0 or 1)
         if(not soilPin.value()):
-            # 土壤乾燥的話
-            print("土壤乾燥，請澆水")
+            currentTime = time.localtime(time.time() + TIME_OFFSET)
+            hour = currentTime[3]
+            # 土壤乾燥且不是中午時段(11~2點)時才澆水
+            if(hour < 11 and hour >= 14):
+                print("土壤乾燥，請澆水")
         else:
             print("土壤濕度足夠")
         # 每 10 秒偵測一次
         time.sleep(10)
-# ctrl C 中斷時
-except KeyboardInterrupt:
+
+# ctrl C 或是因為其他 error 中斷時
+except:
     wifi.disconnect()
     wifi.active(False)
     print("結束偵測")
