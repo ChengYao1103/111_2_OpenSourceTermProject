@@ -7,6 +7,7 @@ https://p501lab.blogspot.com/2014/07/raspberry-pi-gpio.html
 import RPi.GPIO as GPIO
 import time
 
+#BCM的接腳17 = GPIO. 0 = 實際的接腳11
 control_pin = 17
 pwm_freq = 50
 
@@ -29,12 +30,12 @@ def switch_deg(deg):
     dc = angle_to_duty_cycle(deg)
     pwm.ChangeDutyCycle(dc)
 
-degrees = [45, 90, 135, 90]
+degrees = [0, 180, 0]
 
-for i in range(5):
+for i in range(1):
     for deg in degrees:
         switch_deg(deg)
-        time.sleep(0.5)
+        time.sleep(2)
 
 pwm.stop()
 GPIO.cleanup()
