@@ -23,25 +23,24 @@
     <div class="py-2 mb-3 bg-primary w-100 text-white">
       <h3 class="mt-2 ms-3 fw-bold">薰衣草種植環境監測</h3>
     </div>
-    <!-- 亮度 -->
     <div class="container mt-5">
-      <div class="row">
-        <div class="col-4">亮度</div>
-        <div class="col-8">
-          <div class="circle-bar">
-            <svg height="100" width="150">
+      <!-- 亮度 -->
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+          <div class="circle-bar mb-3 mx-auto">
+            <svg height="100" width="200">
               <circle
                 id="light-progress"
-                cx="60"
+                cx="100"
                 cy="50"
                 r="40"
                 stroke="#f0f022"
                 stroke-width="6"
                 fill="#FFFFFF"
               />
-              <text font-size="0.8em" x="5" y="50">0</text>
-              <text font-size="0.8em" x="108" y="50">100</text>
-              <text id="light-value" x="45" y="50">25%</text>
+              <text font-size="0.8em" x="45" y="50">0</text>
+              <text font-size="0.8em" x="148" y="50">100</text>
+              <text id="light-value" x="85" y="50">25%</text>
               <animate
                 id="light-animation"
                 attributeName="stroke-dashoffset"
@@ -54,27 +53,28 @@
               />
             </svg>
           </div>
+          亮度
         </div>
       </div>
-      <hr />
-      <!-- 溫度 -->
-      <div class="row justifi">
-        <div class="col-4">溫度</div>
-        <div class="col-8">
-          <div class="circle-bar">
-            <svg height="100" width="150">
+      <hr class="my-5" />
+      <!-- 溫度 & 濕度 -->
+      <div class="row">
+        <!-- 溫度 -->
+        <div class="col-6 text-center">
+          <div class="circle-bar mb-3 mx-auto">
+            <svg height="100" width="200">
               <circle
                 id="temperature-progress"
-                cx="60"
+                cx="100"
                 cy="50"
                 r="40"
                 stroke="#f08922"
                 stroke-width="6"
                 fill="#FFFFFF"
               />
-              <text font-size="0.8em" x="5" y="50">0</text>
-              <text font-size="0.8em" x="108" y="50">50</text>
-              <text id="temperature-value" x="42" y="50">25°C</text>
+              <text font-size="0.8em" x="45" y="50">0</text>
+              <text font-size="0.8em" x="148" y="50">50</text>
+              <text id="temperature-value" x="82" y="50">25°C</text>
               <animate
                 id="temperature-animation"
                 attributeName="stroke-dashoffset"
@@ -87,27 +87,24 @@
               />
             </svg>
           </div>
+          溫度
         </div>
-      </div>
-      <hr />
-      <!-- 濕度 -->
-      <div class="row">
-        <div class="col-4">濕度</div>
-        <div class="col-8">
-          <div class="circle-bar">
-            <svg height="100" width="150">
+        <!-- 濕度 -->
+        <div class="col-6 text-center">
+          <div class="circle-bar mb-3 mx-auto">
+            <svg height="100" width="200">
               <circle
                 id="humidity-progress"
-                cx="60"
+                cx="100"
                 cy="50"
                 r="40"
                 stroke="#428bca"
                 stroke-width="6"
                 fill="#FFFFFF"
               />
-              <text font-size="0.8em" x="5" y="50">0</text>
-              <text font-size="0.8em" x="108" y="50">100</text>
-              <text id="humidity-value" x="45" y="50">25%</text>
+              <text font-size="0.8em" x="45" y="50">0</text>
+              <text font-size="0.8em" x="148" y="50">100</text>
+              <text id="humidity-value" x="85" y="50">25%</text>
               <animate
                 id="humidity-animation"
                 attributeName="stroke-dashoffset"
@@ -120,13 +117,14 @@
               />
             </svg>
           </div>
+          濕度
         </div>
       </div>
-      <hr />
+      <hr class="mt-5" />
       <!-- 土壤檢測 -->
-      <div class="row">
-        <div class="col-4">上次澆水時間</div>
-        <div class="col-8" id="soil-value">否</div>
+      <div class="row text-center mt-3">
+        <div class="col-6">上次澆水時間</div>
+        <div class="col-6" id="soil-value">否</div>
       </div>
     </div>
   </body>
