@@ -29,7 +29,6 @@ async function getDataFromFirebase() {
     // 如果有撈到資料就更新
     if (datas.exists()) {
       var data = datas.val();
-      console.log(data);
       humidity = data.humidity;
       temperature = data.temperature;
       light = data.lightness;
@@ -67,12 +66,16 @@ function updateData(type, value) {
   }
   // 取得目標動畫
   var targetAnimation = document.getElementById(`${type}-animation`);
+  // 取得目前刻度，使動畫連貫
+  var currentPosition = parseInt(
+    targetAnimation.getAttribute("values").split("; ")[1]
+  );
   // 如果是溫度的話刻度就只有50
   var part = type === "temperature" ? 50 : 100;
   // 更新目標值
   targetAnimation.setAttribute(
     "values",
-    `${length}; ${125 - (length / part) * value}`
+    `${length - currentPosition}; ${125 - (length / part) * value}`
   );
   // 重新跑過一遍動畫
   targetAnimation.beginElement();
