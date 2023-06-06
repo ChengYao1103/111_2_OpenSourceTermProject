@@ -59,8 +59,8 @@ lastWateredTime = time.gmtime(0)
 try:
     while(1):
         # 取得光敏電阻值及計算百分比
-        # read_u16 : 0-65535
-        lightness = countPercentage(ldrPin.read_u16() / 65535)
+        # read : 0-1023
+        lightness = countPercentage(ldrPin.read() / 1024)
         # 觸發偵測溫度與濕度
         dhtPin.measure()
         # 取得溫度與濕度
@@ -69,10 +69,10 @@ try:
         # 取得當下的時間
         currentTime = time.localtime(time.time() + TIME_OFFSET)
         # 取得連接土壤感測器 pin 腳的的值(0 or 1)
-        if(not soilPin.value()):
+        if(soilPin.value()):
             hour = currentTime[3]
             # 土壤乾燥且不是中午時段(11~2點)時才澆水
-            if(hour < 11 and hour >= 14):
+            if(hour < 11 or hour >= 14):
                 # 紀錄澆水的時間
                 lastWateredTime = currentTime
                 print("土壤乾燥，請澆水")
