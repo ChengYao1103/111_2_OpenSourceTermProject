@@ -3,6 +3,8 @@ import {
   getDatabase,
   ref,
   get,
+  query,
+  limitToLast,
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 // 設定 fireBase
@@ -20,32 +22,39 @@ const length = 125;
 var light = 50;
 var temperature = 25;
 var humidity = 50;
-var lastWateredTime = "";
+var lastWateredTime = "未有澆水紀錄";
 
 // 從 fireBase 取得資料
 async function getDataFromFirebase() {
-  var response = await get(ref(db, realtimeDatabaseNodeName));
+  // 新資料固定會在最後一筆
+  var q = query(ref(db, realtimeDatabaseNodeName), limitToLast(1));
+  var response = await get(q);
   response.forEach((datas) => {
     // 如果有撈到資料就更新
     if (datas.exists()) {
       var data = datas.val();
       humidity = data.humidity;
       temperature = data.temperature;
-      light = data.lightness;
-      lastWateredTime = data.lastWateredTime;
+      light = Math.round(data.lightness);
+      // 如果從8266開機以來從未澆過水
+      if (data.lastWateredTime === "2000-01-01 00:00:00") {
+        lastWateredTime = "未有澆水紀錄";
+      } else {
+        lastWateredTime = data.lastWateredTime;
+      }
     }
     // 沒撈到資料就設為 0
     else {
       humidity = 0;
       temperature = 0;
       light = 0;
-      lastWateredTime = 0;
+      lastWateredTime = "未有澆水紀錄";
     }
   });
 }
 
 // 更新所有 progress bar
-function updateProgressBar() {
+function updateProgressBars() {
   updateData("light", light);
   updateData("temperature", temperature);
   updateData("humidity", humidity);
@@ -75,7 +84,7 @@ function updateData(type, value) {
   // 更新目標值
   targetAnimation.setAttribute(
     "values",
-    `${length - currentPosition}; ${125 - (length / part) * value}`
+    `${length - currentPosition}; ${length - (length / part) * value}`
   );
   // 重新跑過一遍動畫
   targetAnimation.beginElement();
@@ -84,9 +93,9 @@ function updateData(type, value) {
 // 每 10 分鐘更新一次資料
 setInterval(async function () {
   await getDataFromFirebase();
-  updateProgressBar();
+  updateProgressBars();
 }, 10 * 1000 * 60);
 
-updateProgressBar();
+updateProgressBars();
 await getDataFromFirebase();
-updateProgressBar();
+updateProgressBars();
