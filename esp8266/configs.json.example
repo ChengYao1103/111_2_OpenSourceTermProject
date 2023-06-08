@@ -1,0 +1,6 @@
+{
+  "wifiSsid": "",
+  "wifiPassword": "",
+  "realtimeDatabaseUrl": "",
+  "realtimeDatabaseNode": "sensor"
+}
