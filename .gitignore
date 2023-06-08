@@ -1,3 +1,4 @@
 /web/node_modules/
 /web/public/configs.json
 firebaseAdminsdkConfig.json
+/esp8266/configs.json
