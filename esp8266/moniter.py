@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from machine import Pin
+from machine import Pin, PWM
 from machine import ADC
 import json
 import time
@@ -43,11 +43,13 @@ DATANODE_NAME = CONFIGS["realtimeDatabaseNode"] + ".json"
 LDR_PIN = 0     #A0
 SOIL_PIN = 16   #D0
 DHT11_PIN = 5   #D1
+SERVO_PIN = 4   #D2
 
 # 設定 ESP12 板子的 GPIO 腳位
 soilPin = Pin(SOIL_PIN, Pin.IN)
 dhtPin = dht.DHT11(Pin(DHT11_PIN))
 ldrPin = ADC(LDR_PIN)
+servoPin = PWM(Pin(SERVO_PIN), freq=50)
 
 # 初始化要上傳的資料變數
 humidity = 0
@@ -56,8 +58,8 @@ temperature = 0
 lastWateredTime = time.gmtime(0)
 
 # 持續執行
-try:
-    while(1):
+while(1):
+    try:
         # 取得光敏電阻值及計算百分比
         # read : 0-1023
         lightness = countPercentage(ldrPin.read() / 1024)
@@ -75,6 +77,12 @@ try:
             if(hour < 11 or hour >= 14):
                 # 紀錄澆水的時間
                 lastWateredTime = currentTime
+                servoPin.duty(150)
+                # 澆水直到土壤夠濕
+                while(not soilPin.value()):
+                   time.sleep(1)
+                servoPin.duty(50)
+                time.sleep(1.5)
                 print("土壤乾燥，請澆水")
         else:
             print("土壤濕度足夠")
@@ -111,8 +119,6 @@ try:
         # 每 10 秒偵測一次
         time.sleep(10)
 
-# ctrl C 或是因為其他 error 中斷時
-except:
-    wifi.disconnect()
-    wifi.active(False)
-    print("結束偵測")
+    # dht11 在剛啟動時 measure 會出現錯誤
+    except Exception as e:
+        print("error:", e)
