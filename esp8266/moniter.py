@@ -77,12 +77,13 @@ while(1):
             if(hour < 11 or hour >= 14):
                 # 紀錄澆水的時間
                 lastWateredTime = currentTime
-                servoPin.duty(150)
+                servoPin.duty(25)
                 # 澆水直到土壤夠濕
-                while(not soilPin.value()):
-                   time.sleep(1)
-                servoPin.duty(50)
-                time.sleep(1.5)
+                while(soilPin.value()):
+                    time.sleep(0.5)
+                time.sleep(2)
+                servoPin.duty(175)
+                time.sleep(1)
                 print("土壤乾燥，請澆水")
         else:
             print("土壤濕度足夠")
